@@ -1,72 +1,103 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const create = async (req, res) => {
-    try {
-        const turma = await prisma.turma.create({
-            data: req.body
-        });
-        return res.status(201).json(turma);
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
+const getTurmas = async (req, res) => {
+  try {
+    const turmas = await prisma.turma.findMany();
+    res.json(turmas);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao buscar turmas" });
+  }
+};
+
+const getTurmaById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const turma = await prisma.turma.findUnique({
+      where: { id: Number(id) },
+      include: { professor: true, atividades: true },
+    });
+    if (!turma) {
+      return res.status(404).json({ error: "Turma não encontrada" });
     }
-}
+    res.json(turma);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao buscar a turma" });
+  }
+};
 
-const read = async (req, res) => {
-    const turmas = await prisma.turma.findMany(
-        {
-            where: {
-                professorId: Number(req.params.id)
-            }
-        }
-    );
-    return res.json(turmas);
-}
+const createTurma = async (req, res) => {
+  const { nome, professor } = req.body;
+  try {
+    const novaTurma = await prisma.turma.create({
+      data: {
+        nome,
+        professor: {
+          connect: { id: Number(professor) },
+        },
+      },
+    });
+    res.json(novaTurma);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao criar a turma" });
+  }
+};
 
-const readOne = async (req, res) => {
-    try {
-        const turma = await prisma.turma.findUnique({
-            select: {
-                id: true,
-                nome: true,
-                professorId: true,
-                atividades: true
-            },
-            where: {
-                id: Number(req.params.id)
-            }
-        });
-        return res.json(turma);
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
-    }
-}
+const updateTurma = async (req, res) => {
+  const { id } = req.params;
+  const { nome } = req.body;
+  try {
+    const updatedTurma = await prisma.turma.update({
+      where: { id: Number(id) },
+      data: { nome },
+    });
+    res.json(updatedTurma);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao atualizar a turma" });
+  }
+};
 
-const update = async (req, res) => {
-    try {
-        const turma = await prisma.turma.update({
-            where: {
-                id: Number(req.params.id)
-            },
-            data: req.body
-        });
-        return res.status(202).json(turma);
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
-    }
-}
+const deleteTurma = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await prisma.turma.delete({
+      where: { id: Number(id) },
+    });
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao deletar a turma" });
+  }
+};
 
-const remove = async (req, res) => {
-    try {
-        await prisma.turma.delete({
-            where: {
-                id: Number(req.params.id)
-            }
-        });
-        return res.status(204).send();
-    } catch (error) {
-        return res.status(404).json({ error: error.message });
-    }
-}
+const getTurmaByProfessor = async (req, res) => {
+  const { id } = req.params;
 
-module.exports = { create, read, readOne, update, remove };
+  try {
+    const turmas = await prisma.turma.findMany({
+      where: { professorId: Number(id) },
+      select: {
+        id: true,
+        nome: true,
+      },
+    });
+
+    res.json(turmas);
+  } catch (error) {
+    console.error("Erro ao buscar Turmas:", error);
+    res.status(500).json({ error: "Erro ao buscar atividades" });
+  }
+};
+
+module.exports = {
+  getTurmas,
+  getTurmaById,
+  createTurma,
+  updateTurma,
+  deleteTurma,
+  getTurmaByProfessor,
+};

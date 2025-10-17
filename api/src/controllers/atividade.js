@@ -1,69 +1,90 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const create = async (req, res) => {
-    try {
-        const atividade = await prisma.atividade.create({
-            data: req.body
-        });
-        return res.status(201).json(atividade);
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
-    }
-}
+const getAtividades = async (req, res) => {
+  try {
+    const atividades = await prisma.atividade.findMany();
+    res.json(atividades);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao buscar atividades" });
+  }
+};
 
-const read = async (req, res) => {
+const getAtividadesByTurma = async (req, res) => {
+  const { id } = req.params;
+
+  try {
     const atividades = await prisma.atividade.findMany({
-        where: {
-            turmaId: Number(req.params.id)
-        }
+      where: { turmaId: Number(id) },
+      select: {
+        id: true,
+        titulo: true,
+      },
     });
-    return res.json(atividades);
-}
 
-const readOne = async (req, res) => {
-    try {
-        const atividade = await prisma.atividade.findUnique({
-            select: {
-                id: true,
-                descricao: true,
-                turma: true
-            },
-            where: {
-                id: Number(req.params.id)
-            }
-        });
-        return res.json(atividade);
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
-    }
-}
+    res.json(atividades);
+  } catch (error) {
+    console.error("Erro ao buscar atividades:", error);
+    res.status(500).json({ error: "Erro ao buscar atividades" });
+  }
+};
 
-const update = async (req, res) => {
-    try {
-        const atividade = await prisma.atividade.update({
-            where: {
-                id: Number(req.params.id)
-            },
-            data: req.body
-        });
-        return res.status(202).json(atividade);
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
-    }
-}
+const createAtividade = async (req, res) => {
+  const { titulo, turmaId } = req.body;
+  try {
+    const novaAtividade = await prisma.atividade.create({
+      data: {
+        titulo,
+        turma: {
+          connect: { id: Number(turmaId) },
+        },
+      },
+    });
+    res.status(201).json(novaAtividade);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao criar atividade" });
+  }
+};
 
-const remove = async (req, res) => {
-    try {
-        await prisma.atividade.delete({
-            where: {
-                id: Number(req.params.id)
-            }
-        });
-        return res.status(204).send();
-    } catch (error) {
-        return res.status(404).json({ error: error.message });
-    }
-}
+const updateAtividade = async (req, res) => {
+  const { id } = req.params;
+  const { titulo, turmaId } = req.body;
+  try {
+    const atividadeAtualizada = await prisma.atividade.update({
+      where: { id: Number(id) },
+      data: {
+        titulo,
+        turma: {
+          connect: { id: Number(turmaId) },
+        },
+      },
+    });
+    res.json(atividadeAtualizada);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao atualizar atividade" });
+  }
+};
 
-module.exports = { create, read, readOne, update, remove };
+const deleteAtividade = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await prisma.atividade.delete({
+      where: { id: Number(id) },
+    });
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao deletar atividade" });
+  }
+};
+
+module.exports = {
+  getAtividades,
+  getAtividadesByTurma,
+  createAtividade,
+  updateAtividade,
+  deleteAtividade,
+};

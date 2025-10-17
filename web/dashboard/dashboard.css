@@ -1,0 +1,223 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: #f0f4f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 90px;
+}
+
+header {
+  width: 100%;
+  background: linear-gradient(90deg, #007acc, #00aaff);
+  padding: 15px 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.professor-info {
+  font-size: 1em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  border-radius: 25px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 120px;
+}
+
+header h1 {
+  color: #fff;
+  font-size: 1.8em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+header a {
+  text-decoration: none;
+  color: #007acc;
+  font-weight: 600;
+  background: #fff;
+  padding: 8px 18px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+header a:hover {
+  background: #e6f0ff;
+  color: #005ea3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+main {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.dashboard-header {
+  display: flex;
+  flex-direction: column; /* título em cima, botão embaixo */
+  align-items: center;
+  gap: 15px; /* espaço entre título, botão e parágrafo */
+  width: 100%;
+  padding: 20px 0;
+  background: linear-gradient(90deg, #007acc, #00aaff);
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h2 {
+  font-size: 2em;
+  margin: 0;
+  text-align: center;
+}
+
+.dashboard-header p {
+  color: #e0e0e0;
+  font-size: 1.1em;
+  text-align: center;
+  margin: 0;
+}
+
+.dashboard-header a {
+  text-decoration: none;
+  color: #007acc; /* azul do tema */
+  font-weight: 600;
+  background: #fff;
+  padding: 10px 25px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-header a:hover {
+  background: #e6f0ff;
+  color: #005ea3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.turmas-section {
+  width: 100%;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  overflow-x: auto;
+}
+
+.turmas-section h3 {
+  font-size: 1.6em;
+  color: #007acc;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.turmas-section table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+.turmas-section thead {
+  background-color: #007acc;
+  color: white;
+}
+
+.turmas-section th {
+  padding: 12px 10px;
+  font-weight: 600;
+  font-size: 1em;
+  word-wrap: break-word;
+}
+
+.turmas-section td {
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95em;
+  word-wrap: break-word;
+}
+
+.turmas-section tbody tr:hover {
+  background-color: #f5faff;
+  transition: background 0.3s ease;
+}
+
+.ver-detalhes {
+  padding: 6px 16px;
+  background-color: #007acc;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95em;
+}
+
+.ver-detalhes:hover {
+  background-color: #005ea3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.deletar-turma {
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+.deletar-turma:hover {
+  background-color: #c0392b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.deletar-turma:focus {
+  outline: 3px solid #f39c12;
+}
+
+.deletar-turma:active {
+  transform: translateY(1px);
+}
