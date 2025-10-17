@@ -1,117 +1,8 @@
-```md
-# 🏫 Aula07 — Sistema de Turmas e Atividades
+## Atividade Full-Stack Escola Avaliação
 
-Este projeto foi desenvolvido como parte da **Avaliação Prática da Aula 07**, cujo objetivo é criar um **sistema web full-stack** para o controle de turmas e atividades de professores.  
-O sistema permite que o professor se autentique, cadastre e visualize suas turmas, registre atividades para cada turma e realize logout.
+## Como executar o sistema
 
----
-
-## 🎯 Objetivo
-
-Desenvolver um **sistema web completo** (front-end e back-end) que permita a um professor:
-
-- Realizar login no sistema;
-- Criar, listar e excluir **turmas**;
-- Cadastrar e listar **atividades** por turma;
-- Encerrar a sessão (logout).
-
----
-
-## 🧩 Contextualização
-
-A falta de controle e organização das atividades escolares pode causar falhas no processo educacional.  
-Este sistema foi desenvolvido com o intuito de oferecer uma ferramenta simples e eficiente para que **professores possam gerenciar suas turmas e atividades**, especialmente em escolas que ainda não possuem sistemas digitais de apoio pedagógico.
-
----
-
-## ⚙️ Tecnologias Utilizadas
-
-### 🖥️ **Back-end**
-- **Node.js** (v18 ou superior)
-- **Express.js** — servidor de aplicação
-- **Prisma ORM** — gerenciamento do banco de dados
-- **MySQL** (v8 ou superior)
-
-### 💻 **Front-end**
-- **HTML5**
-- **CSS3**
-- **JavaScript (ES6+)**
-
-### 🗄️ **Banco de Dados**
-- **Nome:** `turmas_db`
-- **Tabelas:** Professor, Turma, Atividade
-- **Relacionamentos:**
-  - Um professor pode ter várias turmas.
-  - Uma turma pertence a um professor.
-  - Uma turma pode ter várias atividades.
-  - Uma atividade pertence a uma turma.
-
----
-
-## 🧱 Estrutura de Pastas
-
-```
-
-aula07/
-├── api/                # Código do back-end (controllers, rotas e conexão)
-│   ├── controllers/
-│   ├── routes/
-│   ├── prisma/
-│   │   └── schema.prisma
-│   └── server.js
-│
-├── web/                # Código do front-end
-│   ├── index.html              # Tela de login
-│   ├── principal.html          # Tela principal do professor
-│   ├── turma.html              # Tela de atividades da turma
-│   ├── assets/
-│   │   ├── css/
-│   │   └── js/
-│   └── imagens/
-│
-├── docs/               # Entregas de documentação
-│   ├── caso_de_uso.png         # Diagrama de caso de uso
-│   ├── der.png                 # Diagrama entidade-relacionamento
-│   └── banco.sql               # Script SQL de criação e testes
-│
-└── README.md
-
-````
-
----
-
-## 🧠 Modelagem de Dados (Prisma)
-
-```prisma
-model Professor {
-  id       Int      @id @default(autoincrement())
-  nome     String   @db.VarChar(100)
-  email    String   @db.VarChar(100) @unique
-  senha    String   @db.VarChar(100)
-  turmas   Turma[]
-}
-
-model Turma {
-  id          Int         @id @default(autoincrement())
-  nome        String      @db.VarChar(50)
-  atividades  Atividade[]
-  professorId Int
-  professor   Professor   @relation(fields: [professorId], references: [id])
-}
-
-model Atividade {
-  id        Int     @id @default(autoincrement())
-  descricao String  @db.Text
-  turmaId   Int
-  turma     Turma   @relation(fields: [turmaId], references: [id])
-}
-````
-
----
-
-## 🚀 Como executar o sistema
-
-### 🧩 **Pré-requisitos**
+### **Pré-requisitos**
 
 * Node.js 18+
 * MySQL 8+
@@ -119,22 +10,22 @@ model Atividade {
 
 ---
 
-### 🔧 **Instalação e execução**
+### **Instalação e execução**
 
-#### 1️⃣ Clonar o repositório
+#### Clonar o repositório
 
 ```bash
 git clone https://github.com/GabrielBZanon/aula07.git
 cd aula07/api
 ```
 
-#### 2️⃣ Instalar dependências
+#### Instalar dependências
 
 ```bash
 npm install
 ```
 
-#### 3️⃣ Configurar o banco de dados
+#### Configurar o banco de dados
 
 Crie um arquivo `.env` dentro da pasta `api` com o conteúdo:
 
@@ -148,7 +39,7 @@ Em seguida, rode o comando:
 npx prisma migrate dev --name init
 ```
 
-#### 4️⃣ Executar o servidor
+#### Executar o servidor
 
 ```bash
 npm run dev
@@ -160,13 +51,13 @@ O back-end será iniciado em:
 http://localhost:3000
 ```
 
-#### 5️⃣ Executar o front-end
+#### Executar o front-end
 
 Abra o arquivo `web/index.html` em um navegador, ou hospede localmente usando o Live Server (VS Code).
 
 ---
 
-## 🔗 Endpoints da API (para testes no Insomnia)
+## Endpoints da API (para testes no Insomnia)
 
 | Método     | Rota           | Descrição                                 |
 | ---------- | -------------- | ----------------------------------------- |
@@ -180,7 +71,7 @@ Abra o arquivo `web/index.html` em um navegador, ou hospede localmente usando o 
 
 ---
 
-## 🧪 Testes no Insomnia (JSON de exemplo)
+## Testes no Insomnia (JSON de exemplo)
 
 ### Criar Professor
 
@@ -232,7 +123,7 @@ Abra o arquivo `web/index.html` em um navegador, ou hospede localmente usando o 
 
 ---
 
-## 🧰 Requisitos de Infraestrutura
+## Requisitos de Infraestrutura
 
 | Item                                | Descrição                                                   |
 | ----------------------------------- | ----------------------------------------------------------- |
@@ -246,14 +137,14 @@ Abra o arquivo `web/index.html` em um navegador, ou hospede localmente usando o 
 
 ---
 
-## 🧑‍💻 Autor
+## Autor
 
 **Gabriel B. Zanon**
 Desenvolvido para fins educacionais no curso técnico do SENAI — *Aula 07 - Avaliação Prática.*
 
 ---
 
-## 🏁 Conclusão
+## Conclusão
 
 O sistema cumpre todos os requisitos propostos na avaliação: autenticação, cadastro e listagem de turmas, registro de atividades e logout funcional.
 A arquitetura é simples, eficiente e pode ser expandida futuramente para incluir autenticação JWT, controle de permissões e integração com banco de dados remoto.
